@@ -6,7 +6,7 @@ public class ConstructorReferenceExample {
 
         EmployeeFactory factory = EmployeeClass::new;
 
-        EmployeeClass emp = factory.create("Soujanya", "ACC12345", 75000);
+        EmployeeClass emp = factory.create("Arun Reddy", "1234567", 80000);
 
         System.out.println(emp);
     }
