@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 public class EmployeeFilter {
     public static void main(String[] args) {
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee("Krish",30,"Doctor",50000));
-        employees.add(new Employee("Neha",35,"IT",35000));
+        employees.add(new Employee("Ram",35,"Doctor",50000));
+        employees.add(new Employee("Arun",36,"IT",35000));
         employees.add(new Employee("Surya",28,"IT",30000));
 
         List<String> names = employees.stream()
