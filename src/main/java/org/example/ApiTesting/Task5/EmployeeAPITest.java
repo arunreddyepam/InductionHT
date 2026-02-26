@@ -80,9 +80,9 @@ public class EmployeeAPITest {
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.jsonPath().getString("status"), "success");
 
-        Assert.assertEquals(response.jsonPath().getString("data.employee_name"), "Soujanya");
-        Assert.assertEquals(response.jsonPath().getString("data.employee_salary"), "50000");
-        Assert.assertEquals(response.jsonPath().getString("data.employee_age"), "28");
+        Assert.assertEquals(response.jsonPath().getString("data.employee_name"), "Arun Reddy");
+        Assert.assertEquals(response.jsonPath().getString("data.employee_salary"), "60000");
+        Assert.assertEquals(response.jsonPath().getString("data.employee_age"), "25");
     }
 
     @Test(priority = 4)
