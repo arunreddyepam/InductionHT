@@ -1,4 +1,4 @@
-package org.example.CoreJava.Task1;
+package org.example.CoreJava.Task2;
 
 interface Vehicle {
     void start();
@@ -7,7 +7,7 @@ interface Vehicle {
 }
 
 // Car class implementing Vehicle
-class Car implements org.example.CoreJava.Vehicle {
+class Car implements Vehicle {
     private String model;
     private int numberOfWheels;
 
@@ -37,7 +37,7 @@ class Car implements org.example.CoreJava.Vehicle {
 }
 
 // Truck class implementing Vehicle
-class Truck implements org.example.CoreJava.Vehicle {
+class Truck implements Vehicle {
     private String model;
     private int loadCapacity; // in kilograms
 
@@ -67,7 +67,7 @@ class Truck implements org.example.CoreJava.Vehicle {
 }
 
 // Motorcycle class implementing Vehicle
-class Motorcycle implements org.example.CoreJava.Vehicle {
+class Motorcycle implements Vehicle {
     private String model;
     private int numberOfWheels;
 
@@ -99,9 +99,9 @@ class Motorcycle implements org.example.CoreJava.Vehicle {
 // Main class to test the system
 public class DealershipSystem {
     public static void main(String[] args) {
-        org.example.CoreJava.Car car = new org.example.CoreJava.Car("Toyota Camry");
-        org.example.CoreJava.Truck truck = new org.example.CoreJava.Truck("Volvo FH", 18000);
-        org.example.CoreJava.Motorcycle motorcycle = new org.example.CoreJava.Motorcycle("Yamaha R15");
+        Car car = new Car("Toyota Camry");
+        Truck truck = new Truck("Volvo FH", 18000);
+        Motorcycle motorcycle = new Motorcycle("Yamaha R15");
 
         car.displayInfo();
         car.start();

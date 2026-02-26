@@ -2,7 +2,7 @@ package org.example.Java8.Task4;
 
 public class Product {
     String name;
-    double price;
+    public double price;
     String category;
     String grade;
 
