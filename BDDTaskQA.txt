@@ -1,0 +1,89 @@
+1. What is BDD and how does it relate to Cucumber?
+BDD (Behavior-Driven Development) is a software development approach that encourages collaboration by writing tests in plain language that describe the expected behavior of an application.
+Cucumber is a tool that supports BDD by allowing you to write these tests in Gherkin syntax, which are then automated and executed.
+
+2. What is a Feature file and its significance in BDD?
+A Feature file is a plain text file in Cucumber written in Gherkin language. It describes a software feature and contains scenarios that specify expected behaviors. It acts as both documentation and automated test cases.
+  Structure of a Feature file:
+   Feature: User Login
+
+    Scenario: Successful login with valid credentials
+    Given the user is on the login page
+    When the user enters valid credentials
+    Then the user should be redirected to the dashboard
+
+3. Role and Importance of Scenarios in Cucumber
+Scenarios are individual test cases in a Feature file, describing specific behaviors using Given-When-Then steps. Clear scenarios ensure tests are understandable and maintainable, and they directly drive the application’s behavior validation.
+
+4. Parameterizing Tests in Cucumber with Scenario Outlines and Examples
+Parameterization allows running the same scenario with different data.
+Scenario Outline is used with an Examples table:
+
+Scenario Outline: Login
+  When user logs in with <username> and <password>
+  Then login should be <result>
+Examples:
+  | username | password | result  |
+  | user1    | pass1    | success |
+  | user2    | pass2    | failure |
+
+5. What are Step Definitions and how do they interact with Feature file Steps?
+Step Definitions are code methods that implement the steps written in Feature files. Cucumber matches each step in the scenario to its corresponding step definition and executes the code.
+Example: Feature file step:
+ Gherkin: Given the user is on the login page
+
+Step definition in Java:
+
+  @Given("the user is on the login page")
+public void user_on_login_page() {
+    // code to navigate to login page
+}
+
+6. Data-Driven Testing in Cucumber with External Data Sources
+To perform data-driven testing with external sources (like Excel or databases), you typically:
+
+i. Read data from the external source using libraries (e.g., Apache POI for Excel, JDBC for databases).
+ii. Pass data to step definitions, often using Scenario Outlines or by programmatically feeding data.
+iii. Integrate the data reading logic in your step definitions or hooks.
+
+7. Usage of Tags in Cucumber
+Tags (e.g., @smoke) are used to group and selectively run features or scenarios. You can include or exclude tests during execution using tag expressions in your test runner configuration.
+Ex:
+@smoke @login
+Feature: User Login
+
+  @positive
+  Scenario: Successful login
+
+8. Integrating Hooks in Cucumber
+Hooks (@Before, @After, @BeforeStep, @AfterStep) are special methods that run before/after scenarios or steps. They are used for setup, teardown, and logging, improving test management and reliability.
+
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.BeforeStep;
+import io.cucumber.java.AfterStep;
+
+public class Hooks {
+
+    @Before
+    public void beforeScenario() {
+        System.out.println("Before Scenario");
+        // Setup code
+    }
+
+    @After
+    public void afterScenario() {
+        System.out.println("After Scenario");
+        // Teardown code
+    }
+
+    @BeforeStep
+    public void beforeStep() {
+        System.out.println("Before Step");
+    }
+
+    @AfterStep
+    public void afterStep() {
+        System.out.println("After Step");
+    }
+}
