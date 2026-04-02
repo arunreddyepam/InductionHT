@@ -1,0 +1,361 @@
+GIT HOME TASK ANSWERS
+
+--------------------------------------------------
+LOW-LEVEL QUESTIONS
+--------------------------------------------------
+
+1. Initialize a new Git repository and make the first commit
+
+Steps:
+- Navigate to project folder:
+  cd your-folder-name
+
+- Initialize a Git repository:
+  git init
+
+- Create the file and add content:
+  echo "Hello, Git!" > test.txt
+
+- Add the file to staging:
+  git add test.txt
+
+- Commit the file:
+  git commit -m "Initial commit with test.txt"
+
+
+--------------------------------------------------
+
+2. View modified files and detailed commit history
+
+- To check modified files:
+  git status
+
+- To see changes in files:
+  git diff
+
+- To view commit history:
+  git log
+
+- For a more detailed/compact view:
+  git log --oneline --graph --decorate
+
+
+--------------------------------------------------
+
+3. Clone a repository from a Git server
+
+- Get the repository URL (HTTPS or SSH).
+- Clone repo:
+  git clone https://github.com/user/repo.git
+
+- Navigate into folder:
+  cd repo
+
+
+--------------------------------------------------
+MEDIUM-LEVEL QUESTIONS
+--------------------------------------------------
+
+4. Work on feature branch (feature-login)
+
+Create branch from master
+
+- git checkout master
+  git pull origin master   # ensure it's up to date
+
+- Create branch:
+  git checkout -b feature-login
+
+- Make changes and commit:
+  git add .
+  git commit -m "Add login feature"
+
+- Check branch status:
+  git status
+
+- To confirm current branch:
+  git branch
+
+
+--------------------------------------------------
+
+5. Merge feature-navbar into master
+
+- Switch to master:
+  git checkout master
+
+- Pull latest:
+  git pull origin master
+
+- Merge branch:
+  git merge feature-navbar
+
+- Resolve conflicts:
+  Edit files and remove conflict markers
+
+- Add resolved files:
+  git add .
+
+- Complete merge:
+  git commit
+
+
+--------------------------------------------------
+
+6. Rebasing feature branch onto updated master
+
+- Switch to feature branch:
+  git checkout feature-login
+
+- Fetch updates:
+  git fetch origin
+
+- Rebase:
+  git rebase origin/master
+
+- Resolve conflicts if any:
+  git add .
+  git rebase --continue
+
+- Abort if needed:
+  git rebase --abort
+
+Merge vs Rebase (Key Differences)
+
+Merge:
+Keeps full history
+Creates a merge commit
+Safe for shared branches
+
+Rebase:
+Creates linear history
+Rewrites commit history
+Cleaner but risky if shared
+
+When to use what?
+
+Use Merge when:
+Working in a team
+Branch is shared
+Want full history preserved
+Use Rebase when:
+Cleaning up your commits
+Working on your own branch
+Want a linear history
+
+--------------------------------------------------
+COMPLEX-LEVEL QUESTIONS
+--------------------------------------------------
+
+7. Use git stash and cherry-pick
+
+Scenario:
+
+You’re working on feature-login, but suddenly need to fix a critical bug on master.
+
+- Using git stash:
+  Save unfinished work
+  - git stash
+    This stores your changes without committing them.
+
+  - Switch branch:
+    git checkout master
+
+  - Fix bug and commit:
+    git add .
+    git commit -m "Hotfix"
+
+  - Return and restore:
+    git checkout feature-login
+    git stash pop
+
+-Using git cherry-pick:
+
+  If you want a specific commit from another branch:
+   git cherry-pick <commit-hash>
+
+--------------------------------------------------
+
+8. Reverting a faulty commit (without breaking history)
+
+- Find commit:
+  git log
+
+- Revert:
+  git revert <commit-hash>
+
+Note:
+- This creates a new commit that undoes the changes.
+- Keeps history intact
+
+
+--------------------------------------------------
+
+9. Setup pre-commit hook
+ 
+ What is a pre-commit hook?
+
+ A pre-commit hook is a script that runs automatically before a commit is finalized. It can check code quality, run tests, or enforce rules so that only     valid code is committed.
+
+How to set it up
+Step 1: Navigate to the hooks folder
+
+- Navigate:
+  cd .git/hooks
+
+-Create or edit the pre-commit file:
+  touch pre-commit
+  chmod +x pre-commit
+
+- Add linting script:
+  #!/bin/sh
+  npm run lint
+
+Why set this up in a shared workflow:
+
+Consistency: Ensures all developers follow the same coding standards
+Early detection: Prevents bad code or formatting from entering the repository
+Automated enforcement: Reduces manual code reviews for style issues
+
+Impact on code quality:
+
+Improves readability and maintainability of the codebase
+Reduces bugs caused by code style errors
+Helps maintain a cleaner commit history
+
+--------------------------------------------------
+
+10. Investigating and Fixing a Bug from Commit abc123
+
+Description:
+Use Git commands to identify when a bug was introduced and fix it without breaking history.
+
+Workflow:
+
+- Examine the problematic commit:
+git show abc123
+# Shows the diff, files changed, and commit message to understand the bug.
+
+- View recent commits for context (optional):
+git log --oneline --graph --decorate -n 5
+
+- Use git bisect to identify the first bad commit (if unsure):
+git bisect start
+git bisect bad               # current commit has the bug
+git bisect good HEAD~10      # last known good commit
+
+# Git checks out a commit in the middle. Test the code:
+# If bug exists:
+git bisect bad
+# If bug does not exist:
+git bisect good
+
+# Repeat until Git identifies the first bad commit.
+
+- Create a branch to fix the bug:
+git checkout -b fix-bug-abc123
+
+- Edit the code to fix the bug.
+
+- Stage and commit the fix:
+git add .
+git commit -m "Fix bug introduced in commit abc123"
+
+- Test thoroughly to ensure bug is fixed and no other issues exist.
+
+- Finish bisecting (if used):
+git bisect reset
+
+- Merge the fix into main branch:
+git checkout main
+git pull origin main
+git merge fix-bug-abc123
+git push origin main
+
+Summary:
+- git show: inspect commit
+- git log: check context
+- git bisect: find first bad commit
+- Branch, fix, commit, test
+- Merge fix safely into main branch
+
+--------------------------------------------------
+
+11. Maintaining a Clean Commit History Using Git Rebase
+
+Description:
+Use git rebase to edit, rearrange, squash, or split commits for a clean and concise history.
+
+Workflow:
+
+1. Start an interactive rebase for the last N commits:
+git rebase -i HEAD~3
+# Opens an editor showing the last 3 commits.
+
+2. Rebase commands in the editor:
+- pick   → keep commit as-is
+- reword → edit commit message
+- squash → combine this commit with the previous one
+- edit   → pause to modify commit content
+- fixup  → squash commit without keeping its message
+
+3. Rearrange commits:
+- Move lines up/down in the editor to change commit order.
+
+4. Squash commits:
+- Replace 'pick' with 'squash' for commits to combine with the previous one.
+
+5. Split a commit:
+- Mark the commit with 'edit'
+git add .
+git reset HEAD^
+# Now stage portions separately
+git commit -m "Partial commit 1"
+git commit -m "Partial commit 2"
+git rebase --continue
+
+6. Resolve conflicts if any:
+- Edit files
+- git add .
+- git rebase --continue
+
+7. Abort rebase if needed:
+git rebase --abort
+
+Notes:
+- Interactive rebase rewrites commit history, so avoid rebasing shared branches.
+- Keeps commit history clean, concise, and readable for reviewers.
+
+--------------------------------------------------
+
+12. Fork and create pull request
+
+- Fork repo (GitHub)
+
+- Clone fork:
+  git clone https://github.com/your-username/repo.git
+
+- Add upstream:
+  git remote add upstream https://github.com/original/repo.git
+
+- Create branch:
+  git checkout -b feature-fix
+
+- Commit changes:
+  git add .
+  git commit -m "Fix issue"
+
+- Push:
+  git push origin feature-fix
+
+- Create Pull Request on GitHub
+
+Best Practices:
+- Keep fork updated:
+  git pull upstream master
+- Write clear commits
+
+
+--------------------------------------------------
+
+END OF DOCUMENT
