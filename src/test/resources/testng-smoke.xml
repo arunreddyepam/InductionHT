@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Smoke Test Suite" verbose="2">
+
+    <test name="Smoke Tests">
+        <groups>
+            <run>
+                <include name="Smoke"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="grouping.TestGrouping"/>
+        </classes>
+    </test>
+
+    <!--
+        Expected Tests to Run:
+        TC01 - testUserLogin()        [Smoke | Regression | Functional]
+        TC02 - testHomepageLoad()     [Smoke | Regression]
+        TC03 - testSearchFunctionality() [Smoke | Functional]
+        TC05 - testDatabaseConnection()  [Smoke]
+        Total: 4 Tests
+    -->
+
+</suite>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+
+        <!-- REQ 2: Levels are filtered per-appender -->
+        <!-- REQ 4: Custom format using PatternLayout -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{dd-MM-yyyy HH:mm:ss} | %-5level | %c{1} | %msg%n"/>
+            <!-- Only INFO and above on console -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+        <!-- REQ 3: File appender — logs/app.log -->
+        <RollingFile name="FileAppender"
+                     fileName="logs/app.log"
+                     filePattern="logs/app-%d{yyyy-MM-dd}.log.gz">
+            <!-- REQ 4: Different custom format for the file -->
+            <PatternLayout
+                    pattern="%d{ISO8601} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+        </RollingFile>
+        <!-- REQ 3: Separate error-only file -->
+        <File name="ErrorFile" fileName="logs/error.log">
+            <PatternLayout pattern="%d | ERROR | %c{1} | %msg | %throwable{short}%n"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        </File>
+
+    </Appenders>
+    <Loggers>
+        <!-- REQ 2: Root logger set to DEBUG — captures ALL levels -->
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFile"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

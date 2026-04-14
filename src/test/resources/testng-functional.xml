@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Functional Test Suite" verbose="2">
+
+    <test name="Functional Tests">
+        <groups>
+            <run>
+                <include name="Functional"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="grouping.TestGrouping"/>
+        </classes>
+    </test>
+
+    <!--
+        Expected Tests to Run:
+        TC01 - testUserLogin()           [Smoke | Regression | Functional]
+        TC03 - testSearchFunctionality() [Smoke | Functional]
+        TC04 - testUserRegistration()    [Regression | Functional]
+        TC07 - testShoppingCart()        [Functional]
+        Total: 4 Tests
+    -->
+
+</suite>
