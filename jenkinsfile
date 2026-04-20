@@ -1,48 +1,63 @@
 pipeline {
     agent any
-
-    tools {
-        jdk 'JDK21'
-        maven 'Maven3'
+tools {
+                    jdk 'JDK21'
+                    maven 'Maven3'
     }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Build') {
             steps {
-                bat 'mvn clean compile'
+                // Compile your Java project and resolve dependencies
+                sh 'mvn clean compile'
             }
         }
-
         stage('Test') {
             steps {
-                bat 'mvn test'
+                // Run TestNG tests
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    // Archive TestNG reports
+                    junit 'test-output/testng-results.xml'
+                }
             }
         }
-
+        stage('Publish Report') {
+            steps {
+                // Publish HTML report if you generate one
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'test-output',
+                    reportFiles: 'index.html',
+                    reportName: 'TestNG HTML Report'
+                ])
+            }
+        }
+        stage('Email Report') {
+            steps {
+                // Email the report to stakeholders
+                emailext (
+                    subject: "Calculator Project Test Report - Build #${BUILD_NUMBER}",
+                    body: "Please find the attached TestNG report.",
+                    to: 'stakeholder1@email.com, stakeholder2@email.com',
+                    attachLog: true,
+                    attachmentsPattern: 'test-output/testng-results.xml'
+                )
+            }
+        }
     }
-
     post {
         always {
-            echo 'Pipeline finished.'
-            junit '**/target/surefire-reports/*.xml'
-            archiveArtifacts artifacts: 'target/cucumber-reports.html', allowEmptyArchive: true
-                    publishHTML(target: [
-                        reportDir: 'target',
-                        reportFiles: 'cucumber-reports.html',
-                        reportName: 'Cucumber HTML Report'
-                    ])
-
-        }
-        success {
-            echo 'Build and tests succeeded!'
-        }
-        failure {
-            echo 'Build or tests failed.'
+            cleanWs()
         }
     }
 }
